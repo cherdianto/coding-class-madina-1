@@ -103,7 +103,7 @@ function renderForm() {
 
 function renderLists() {
   const positions = ['player', 'gk', 'sub'];
-  playerListsEl.innerHTML = positions
+  const sections = positions
     .map((pos) => {
       const list = latestRegistrations.filter((r) => r.position === pos);
       const cap = latestSettings.capacity[pos];
@@ -111,44 +111,44 @@ function renderLists() {
       const items = list
         .map(
           (r, i) => `
-        <li class="rounded-lg bg-slate-50 px-3 py-2 flex flex-col">
+        <li class="rounded-lg bg-slate-50 px-3 py-2">
           <span class="font-medium">${i + 1}. ${escapeHtml(r.name)}</span>
-          <span class="text-sm text-slate-500">WhatsApp: ${escapeHtml(r.whatsapp)}</span>
         </li>`
         )
         .join('');
 
       const emptyState = `<p class="text-sm text-slate-400 italic">No one registered yet.</p>`;
-      const copyButton =
-        pos === 'player'
-          ? `<button data-copy="all" class="mt-3 w-full rounded-lg border border-emerald-700 text-emerald-700 font-medium py-2 text-sm">Copy Player List for WhatsApp</button>
-             <p data-copy-confirm class="hidden text-center text-xs text-emerald-700 mt-1">Copied!</p>`
-          : '';
 
       return `
         <div>
           <h3 class="font-semibold mb-2">${POSITION_LABELS[pos]} (${list.length}/${cap})</h3>
           <ul class="space-y-2">${items || emptyState}</ul>
-          ${copyButton}
         </div>
       `;
     })
     .join('');
 
+  const copySection = `
+    <div>
+      <button data-copy="all" class="w-full rounded-lg border border-emerald-700 text-emerald-700 font-medium py-2 text-sm">Copy Player List for WhatsApp</button>
+      <p data-copy-confirm class="hidden text-center text-xs text-emerald-700 mt-1">Copied!</p>
+    </div>
+  `;
+
+  playerListsEl.innerHTML = sections + copySection;
+
   const copyBtn = playerListsEl.querySelector('[data-copy="all"]');
-  if (copyBtn) {
-    copyBtn.addEventListener('click', async () => {
-      const text = window.buildWhatsAppMessage(latestRegistrations);
-      try {
-        await navigator.clipboard.writeText(text);
-        const confirmEl = playerListsEl.querySelector('[data-copy-confirm]');
-        confirmEl.classList.remove('hidden');
-        setTimeout(() => confirmEl.classList.add('hidden'), 2000);
-      } catch (err) {
-        console.error(err);
-      }
-    });
-  }
+  copyBtn.addEventListener('click', async () => {
+    const text = window.buildWhatsAppMessage(latestRegistrations);
+    try {
+      await navigator.clipboard.writeText(text);
+      const confirmEl = playerListsEl.querySelector('[data-copy-confirm]');
+      confirmEl.classList.remove('hidden');
+      setTimeout(() => confirmEl.classList.add('hidden'), 2000);
+    } catch (err) {
+      console.error(err);
+    }
+  });
 }
 
 function showFormMessage(text, kind) {

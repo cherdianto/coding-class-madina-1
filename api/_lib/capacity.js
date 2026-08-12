@@ -9,4 +9,9 @@ function countByPosition(registrations, position) {
   return registrations.filter((r) => r.position === position).length;
 }
 
-module.exports = { POSITION_LABELS, capacityFor, countByPosition };
+function isDuplicateName(registrations, name) {
+  const normalized = name.trim().toLowerCase();
+  return registrations.some((r) => r.name.trim().toLowerCase() === normalized);
+}
+
+module.exports = { POSITION_LABELS, capacityFor, countByPosition, isDuplicateName };

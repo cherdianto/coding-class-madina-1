@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const { getSettings, getRegistrations, addRegistration } = require('../_lib/sheets');
 const { requireAdmin } = require('../_lib/auth');
 const { validateRegistrationInput } = require('../_lib/validate');
-const { capacityFor, countByPosition } = require('../_lib/capacity');
+const { capacityFor, countByPosition, isDuplicateName } = require('../_lib/capacity');
 
 module.exports = async function handler(req, res) {
   if (!requireAdmin(req, res)) return;
@@ -27,6 +27,11 @@ module.exports = async function handler(req, res) {
     const current = countByPosition(registrations, position);
     if (current >= capacity) {
       res.status(409).json({ error: 'This category is already full.' });
+      return;
+    }
+
+    if (isDuplicateName(registrations, name)) {
+      res.status(409).json({ error: 'This name is already registered.' });
       return;
     }
 
