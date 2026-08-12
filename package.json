@@ -1,0 +1,13 @@
+{
+  "name": "madina-united-training-session",
+  "version": "1.0.0",
+  "description": "Simple RSVP/registration app for Madina United weekly football training, backed by Google Sheets.",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "google-spreadsheet": "^4.1.4",
+    "google-auth-library": "^9.14.1"
+  }
+}

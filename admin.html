@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Madina United Training Session</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+  <!-- Login screen -->
+  <main id="login-screen" class="flex-1 flex items-center justify-center px-4">
+    <div class="w-full max-w-sm bg-white rounded-2xl p-6 shadow-sm">
+      <h1 class="text-lg font-bold mb-1">Admin Dashboard</h1>
+      <p class="text-sm text-slate-500 mb-4">Madina United Training Session</p>
+
+      <div id="login-message" class="hidden mb-4 rounded-lg px-3 py-2 text-sm bg-red-50 text-red-700"></div>
+
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label for="pin" class="block text-sm font-medium mb-1">Admin PIN</label>
+          <input id="pin" name="pin" type="password" inputmode="numeric" maxlength="6" required
+            class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base tracking-widest text-center focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+        </div>
+        <button type="submit"
+          class="w-full rounded-lg bg-emerald-700 text-white font-semibold py-3 text-base">
+          Login
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Dashboard screen -->
+  <main id="dashboard-screen" class="hidden flex-1 w-full max-w-2xl mx-auto px-4 py-6 space-y-6">
+    <div class="flex items-center justify-between">
+      <h1 class="text-lg font-bold">Admin Dashboard</h1>
+      <button id="logout-btn" class="text-sm text-slate-500 underline">Logout</button>
+    </div>
+
+    <div id="dashboard-message" class="hidden rounded-lg px-3 py-2 text-sm"></div>
+
+    <!-- Training Schedule -->
+    <section class="bg-white rounded-2xl p-5 shadow-sm">
+      <h2 class="text-base font-semibold mb-4">Training Schedule</h2>
+      <form id="schedule-form" class="space-y-4">
+        <div>
+          <label for="training_date" class="block text-sm font-medium mb-1">Training Date</label>
+          <input id="training_date" type="date" class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+        </div>
+        <div>
+          <label for="training_time" class="block text-sm font-medium mb-1">Training Time</label>
+          <input id="training_time" type="text" placeholder="20:00 - 22:00" class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+        </div>
+        <div>
+          <label for="training_info" class="block text-sm font-medium mb-1">Training Information</label>
+          <textarea id="training_info" rows="2" maxlength="200" class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600"></textarea>
+        </div>
+        <button type="submit" class="w-full rounded-lg bg-emerald-700 text-white font-semibold py-3 text-base">Save Schedule</button>
+      </form>
+    </section>
+
+    <!-- Registration Open/Close -->
+    <section class="bg-white rounded-2xl p-5 shadow-sm">
+      <h2 class="text-base font-semibold mb-4">Registration</h2>
+      <div class="flex items-center justify-between">
+        <span id="registration-status-label" class="inline-flex items-center gap-2 font-medium">
+          <span class="w-2 h-2 rounded-full bg-slate-300"></span>
+          <span>Loading…</span>
+        </span>
+        <button id="toggle-registration-btn" class="rounded-lg border border-emerald-700 text-emerald-700 font-medium px-4 py-2 text-sm">
+          …
+        </button>
+      </div>
+    </section>
+
+    <!-- Capacity -->
+    <section class="bg-white rounded-2xl p-5 shadow-sm">
+      <h2 class="text-base font-semibold mb-4">Capacity</h2>
+      <form id="capacity-form" class="space-y-4">
+        <div>
+          <label for="player_capacity" class="block text-sm font-medium mb-1">Player Capacity</label>
+          <input id="player_capacity" type="number" min="0" max="999" class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+        </div>
+        <div>
+          <label for="gk_capacity" class="block text-sm font-medium mb-1">Goal Keeper Capacity</label>
+          <input id="gk_capacity" type="number" min="0" max="999" class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+        </div>
+        <div>
+          <label for="sub_capacity" class="block text-sm font-medium mb-1">Substitution Capacity</label>
+          <input id="sub_capacity" type="number" min="0" max="999" class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+        </div>
+        <button type="submit" class="w-full rounded-lg bg-emerald-700 text-white font-semibold py-3 text-base">Save Capacity</button>
+      </form>
+    </section>
+
+    <!-- Registered Players -->
+    <section class="bg-white rounded-2xl p-5 shadow-sm">
+      <h2 class="text-base font-semibold mb-4">Registered Players</h2>
+      <div id="admin-player-lists" class="space-y-6">
+        <p class="text-sm text-slate-500">Loading…</p>
+      </div>
+    </section>
+
+    <!-- Add Player -->
+    <section class="bg-white rounded-2xl p-5 shadow-sm">
+      <h2 class="text-base font-semibold mb-4">Add Player</h2>
+      <div id="add-player-message" class="hidden mb-4 rounded-lg px-3 py-2 text-sm"></div>
+      <form id="add-player-form" class="space-y-4">
+        <div>
+          <label for="add-name" class="block text-sm font-medium mb-1">Name</label>
+          <input id="add-name" type="text" required maxlength="80" class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+        </div>
+        <div>
+          <label for="add-whatsapp" class="block text-sm font-medium mb-1">WhatsApp</label>
+          <input id="add-whatsapp" type="tel" required maxlength="30" class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600" />
+        </div>
+        <div>
+          <label for="add-position" class="block text-sm font-medium mb-1">Position</label>
+          <select id="add-position" class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base focus:outline-none focus:ring-2 focus:ring-emerald-600">
+            <option value="player">Player</option>
+            <option value="gk">Goal Keeper</option>
+            <option value="sub">Substitution</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full rounded-lg bg-emerald-700 text-white font-semibold py-3 text-base">Add Player</button>
+      </form>
+    </section>
+
+    <!-- WhatsApp -->
+    <section class="bg-white rounded-2xl p-5 shadow-sm">
+      <h2 class="text-base font-semibold mb-4">WhatsApp</h2>
+      <button id="copy-list-btn" class="w-full rounded-lg border border-emerald-700 text-emerald-700 font-medium py-3 text-base">Copy Player List for WhatsApp</button>
+      <p id="copy-confirm" class="hidden text-center text-xs text-emerald-700 mt-2">Copied!</p>
+    </section>
+  </main>
+
+  <footer class="text-center text-xs text-slate-400 py-6">
+    webcreatia
+  </footer>
+
+  <script src="/js/whatsapp-format.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>
