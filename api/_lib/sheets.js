@@ -132,6 +132,16 @@ async function removeRegistrationById(id) {
   return true;
 }
 
+// Removes all registration rows but keeps the header row intact.
+async function clearAllRegistrations() {
+  const doc = await getDoc();
+  const sheet = doc.sheetsByTitle[REGISTRATIONS_SHEET];
+  const rows = await sheet.getRows();
+  for (const row of rows.slice().reverse()) {
+    await row.delete();
+  }
+}
+
 module.exports = {
   getDoc,
   getSettings,
@@ -139,4 +149,5 @@ module.exports = {
   getRegistrations,
   addRegistration,
   removeRegistrationById,
+  clearAllRegistrations,
 };

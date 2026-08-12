@@ -25,6 +25,7 @@ const addPlayerForm = document.getElementById('add-player-form');
 const addPlayerMessage = document.getElementById('add-player-message');
 const copyListBtn = document.getElementById('copy-list-btn');
 const copyConfirm = document.getElementById('copy-confirm');
+const newSessionBtn = document.getElementById('new-session-btn');
 
 function showLogin() {
   loginScreen.classList.remove('hidden');
@@ -264,6 +265,24 @@ toggleRegistrationBtn.addEventListener('click', async () => {
     latestSettings = data.settings;
     renderRegistrationToggle();
     showMessage(dashboardMessage, `Registration is now ${!currentlyOpen ? 'open' : 'closed'}.`, 'success');
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+newSessionBtn.addEventListener('click', async () => {
+  if (!confirm('Start a new session? This removes ALL current registrations and reopens registration. This cannot be undone.')) return;
+
+  try {
+    const res = await authedFetch('/api/admin/new-session', { method: 'POST' });
+    const data = await res.json();
+    if (!res.ok) {
+      showMessage(dashboardMessage, data.error || 'Could not start a new session.', 'error');
+      return;
+    }
+    latestSettings = data.settings;
+    showMessage(dashboardMessage, 'New session started. All registrations cleared and registration is open.', 'success');
+    await loadAll();
   } catch (err) {
     console.error(err);
   }
